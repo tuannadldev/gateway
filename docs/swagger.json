@@ -1,0 +1,292 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "REST -\u003e GRPC API Gateway / Permission and More for all public services",
+        "title": "Sample PUBLIC Gateway",
+        "contact": {
+            "name": "TuanNguyen",
+            "url": "http://www.swagger.io/support",
+            "email": "tuannadldev@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3010",
+    "basePath": "/",
+    "paths": {
+        "/api/customers": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CustomerService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": " name is comment line",
+                        "name": "id",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": " customer name",
+                        "name": "name",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": " customer email",
+                        "name": "email",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": " customer age",
+                        "name": "age",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": " customer address",
+                        "name": "address",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_customer.UpdateCustomerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_customer.UpdateCustomerResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customers/": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CustomerService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": " customer name",
+                        "name": "name",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": " customer email",
+                        "name": "email",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": " customer age",
+                        "name": "age",
+                        "in": "body",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": " customer address",
+                        "name": "address",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_customer.CreateCustomerRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_customer.CreateCustomerResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customers/:id": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CustomerService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": " input id",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_customer.GetCustomerResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "gateway_proto_customer.CreateCustomerRequest": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "customer address",
+                    "type": "string"
+                },
+                "age": {
+                    "description": "customer age",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "customer email",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "customer name",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_customer.CreateCustomerResponse": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "description": "customer object",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/gateway_proto_customer.Customer"
+                        }
+                    ]
+                }
+            }
+        },
+        "gateway_proto_customer.Customer": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "customer address",
+                    "type": "string"
+                },
+                "age": {
+                    "description": "customer age",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "customer email",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "customer id",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "customer name",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_customer.GetCustomerResponse": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "description": "customer object",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/gateway_proto_customer.Customer"
+                        }
+                    ]
+                }
+            }
+        },
+        "gateway_proto_customer.UpdateCustomerRequest": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "customer address",
+                    "type": "string"
+                },
+                "age": {
+                    "description": "customer age",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "customer email",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "name is comment line",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "customer name",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_customer.UpdateCustomerResponse": {
+            "type": "object",
+            "properties": {
+                "customer": {
+                    "description": "customer object",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/gateway_proto_customer.Customer"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+version: '3'
+services:
+  redis-master:
+    image: redis
+    container_name: redis-master
+    command: redis-server --port 6379
+    networks:
+      - redis-net
+    ports:
+      - 6379:6379
+
+  redis-slave1:
+    image: redis
+    container_name: redis-slave1
+    command: redis-server --slaveof redis-master 6379 --port 6380
+    networks:
+      - redis-net
+
+  redis-slave2:
+    container_name: redis-slave2
+    image: redis
+    command: redis-server --slaveof redis-master 6379 --port 6381
+    networks:
+      - redis-net
+
+  redis-slave3:
+    image: redis
+    container_name: redis-slave3
+    command: redis-server --slaveof redis-master 6379 --port 6382
+    networks:
+      - redis-net
+
+  redis-sentinel:
+    image: redis
+    container_name: redis-sentinel
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    networks:
+      - redis-net
+    ports:
+      - 26379:26379
+    depends_on:
+      - redis-master
+      - redis-slave1
+      - redis-slave2
+      - redis-slave3
+
+networks:
+  redis-net:

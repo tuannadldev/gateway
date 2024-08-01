@@ -1,0 +1,6 @@
+    <param_name>_temp := ctx.<param_context>("<param_name>")
+    <param_name>_convert, err := time.Parse(time.RFC3339, <param_name>_temp)
+    if err != nil {
+        return nil, err
+    }
+    <param_name> := timestamppb.New(<param_name>_convert)

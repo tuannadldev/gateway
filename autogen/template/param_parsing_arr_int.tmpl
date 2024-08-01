@@ -1,0 +1,13 @@
+    <param_name>_split := strings.Split(ctx.Query("<param_name>"), ",")
+    <param_name>_value := make([]int64, 0)
+    for _, v := range <param_name>_split {
+        if v == "" {
+            continue
+        }
+        v_int64, err := strconv.ParseInt(v, 10, 64)
+        if err != nil {
+            return nil, err
+        }
+        <param_name>_value = append(<param_name>_value, v_int64)
+    }
+    data.<param_name_upper_case_word> = <param_name>_value

@@ -1,0 +1,72 @@
+// protoc --go_out=plugins=grpc:. *.proto
+syntax = "proto3";
+
+package customer;
+option go_package = "./proto/customer";
+
+message Customer {
+  // customer id
+  string id = 1;
+  // customer name
+  string name = 2;
+  // customer email
+  string email = 3;
+  // customer age
+  int32 age = 4;
+  // customer address
+  string address = 5;
+}
+
+message GetCustomerRequest {
+  // input id
+  string id = 1;
+}
+
+message GetCustomerResponse {
+  // customer object
+  Customer customer = 1;
+}
+
+message CreateCustomerRequest {
+  // customer name
+  string name = 1;
+  // customer email
+  string email = 2;
+  // customer age
+  int32 age = 3;
+  // customer address
+  string address = 4;
+}
+
+message CreateCustomerResponse {
+  // customer object
+  Customer customer = 1;
+}
+
+message UpdateCustomerRequest {
+  // name is comment line
+  string id = 1;
+  // customer name
+  string name = 2;
+  // customer email
+  string email = 3;
+  // customer age
+  int32 age = 4;
+  // customer address
+  string address = 5;
+}
+
+message UpdateCustomerResponse {
+  // customer object
+  Customer customer = 1;
+}
+
+// /api/customers
+service CustomerService {
+  //GET, /:id
+  rpc GetCustomer(GetCustomerRequest) returns (GetCustomerResponse);
+  //POST, /
+  rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse);
+  //PUT,
+  rpc UpdateCustomer(UpdateCustomerRequest) returns (UpdateCustomerResponse);
+}

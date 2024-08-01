@@ -1,0 +1,9 @@
+    <param_name>_str := ctx.<param_context>("<param_name>")
+    if <param_name>_str != "" {
+        <param_name>_value, err := strconv.ParseBool(<param_name>_str)
+        if err != nil {
+            return nil, err
+        }
+        data.<param_name_upper_case_word> = <param_name>_value
+    }
+    

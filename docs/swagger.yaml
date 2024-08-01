@@ -1,0 +1,188 @@
+basePath: /
+definitions:
+  gateway_proto_customer.CreateCustomerRequest:
+    properties:
+      address:
+        description: customer address
+        type: string
+      age:
+        description: customer age
+        type: integer
+      email:
+        description: customer email
+        type: string
+      name:
+        description: customer name
+        type: string
+    type: object
+  gateway_proto_customer.CreateCustomerResponse:
+    properties:
+      customer:
+        allOf:
+        - $ref: '#/definitions/gateway_proto_customer.Customer'
+        description: customer object
+    type: object
+  gateway_proto_customer.Customer:
+    properties:
+      address:
+        description: customer address
+        type: string
+      age:
+        description: customer age
+        type: integer
+      email:
+        description: customer email
+        type: string
+      id:
+        description: customer id
+        type: string
+      name:
+        description: customer name
+        type: string
+    type: object
+  gateway_proto_customer.GetCustomerResponse:
+    properties:
+      customer:
+        allOf:
+        - $ref: '#/definitions/gateway_proto_customer.Customer'
+        description: customer object
+    type: object
+  gateway_proto_customer.UpdateCustomerRequest:
+    properties:
+      address:
+        description: customer address
+        type: string
+      age:
+        description: customer age
+        type: integer
+      email:
+        description: customer email
+        type: string
+      id:
+        description: name is comment line
+        type: string
+      name:
+        description: customer name
+        type: string
+    type: object
+  gateway_proto_customer.UpdateCustomerResponse:
+    properties:
+      customer:
+        allOf:
+        - $ref: '#/definitions/gateway_proto_customer.Customer'
+        description: customer object
+    type: object
+host: localhost:3010
+info:
+  contact:
+    email: tuannadldev@gmail.com
+    name: TuanNguyen
+    url: http://www.swagger.io/support
+  description: REST -> GRPC API Gateway / Permission and More for all public services
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Sample PUBLIC Gateway
+  version: "1.0"
+paths:
+  /api/customers:
+    put:
+      parameters:
+      - description: ' name is comment line'
+        in: body
+        name: id
+        schema:
+          type: string
+      - description: ' customer name'
+        in: body
+        name: name
+        schema:
+          type: string
+      - description: ' customer email'
+        in: body
+        name: email
+        schema:
+          type: string
+      - description: ' customer age'
+        in: body
+        name: age
+        schema:
+          type: integer
+      - description: ' customer address'
+        in: body
+        name: address
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_customer.UpdateCustomerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_customer.UpdateCustomerResponse'
+      summary: 'permission:'
+      tags:
+      - CustomerService
+  /api/customers/:
+    post:
+      parameters:
+      - description: ' customer name'
+        in: body
+        name: name
+        schema:
+          type: string
+      - description: ' customer email'
+        in: body
+        name: email
+        schema:
+          type: string
+      - description: ' customer age'
+        in: body
+        name: age
+        schema:
+          type: integer
+      - description: ' customer address'
+        in: body
+        name: address
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_customer.CreateCustomerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_customer.CreateCustomerResponse'
+      summary: 'permission:'
+      tags:
+      - CustomerService
+  /api/customers/:id:
+    get:
+      parameters:
+      - description: ' input id'
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_customer.GetCustomerResponse'
+      summary: 'permission:'
+      tags:
+      - CustomerService
+swagger: "2.0"

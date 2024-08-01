@@ -1,0 +1,33 @@
+// auto generate code, dont edit it
+package <proto_package>
+
+import(
+    "gateway/pkg/monitor"
+    "gateway/proto/<proto_folder>"
+    "strconv"
+    "strings"
+
+    "github.com/gin-gonic/gin"
+    "go.elastic.co/apm/v2"
+)
+
+type <handler_name_lower_1st>Handler struct {
+}
+
+func New<handler_name>Handler() *<handler_name_lower_1st>Handler {
+    return &<handler_name_lower_1st>Handler{}
+}
+
+// @Summary <summary>
+// @Tags <tags>
+// @Produce json
+<param_declarations>
+// @Success 200 {object} <proto_package>.<response_type>
+// @Router <path> [get]
+func (handler *<handler_name_lower_1st>Handler) Handle(ctx *gin.Context) (interface{}, error) {
+    monitor.SetApmContext(apm.DetachedContext(ctx.Request.Context()))
+    data := &<proto_package>.<request_type>{}
+<param_parsings>
+
+    return data, nil
+}

@@ -1,0 +1,51 @@
+server:
+  AppVersion: 1.0.0
+  Port: :3011
+  Mode: Development
+  ReadTimeout: 5
+  WriteTimeout: 5
+  SSL: true
+  CtxDefaultTimeout: 10
+  Debug: true
+  Timeout: 15
+  MaxConnectionAge: 5
+  Time: 30
+  ServiceName: Gateway
+  TimeConvert: "2006-01-02"
+
+logger:
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: json
+
+redis:
+  DB: 0
+  MinIdleConns: 200
+  Password: ''
+  PoolSize: 12000
+  PoolTimeout: 240
+  RedisAddr: 127.0.0.1:6379
+  RedisDb: 0
+  RedisDefaultdb: 0
+  RedisPassword:
+
+service:
+  CustomerServiceUrl: localhost:7070
+  OrderServiceUrl: localhost:7071
+
+JwtConfig:
+  SecretKey: "secret"
+  PublicKey:
+    - "cert/svc1.pub"
+    - "cert/svc2.pub"
+    - "cert/svc3.pub"
+  TTL: 1
+
+RateLimit:
+  Limit: 100
+  Expire: 60
+
+cors:
+  AllowOrigins:
+    - "*"

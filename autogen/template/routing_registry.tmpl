@@ -1,0 +1,17 @@
+// auto generate code, dont edit it
+package delivery
+
+import (
+<handler_paths>
+)
+
+type routingConfig struct {
+    requestHandler          RequestHandler
+    remoteServiceName       string
+    remoteServiceMethod     string
+    remoteServicePermission string
+}
+
+var routingRegistry = map[string]routingConfig{
+<routing_configs>
+}

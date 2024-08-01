@@ -1,0 +1,9 @@
+    <param_name>_split := strings.Split(ctx.Query("<param_name>"), ",")
+    <param_name>_value := make([]string, 0)
+    for _, v := range <param_name>_split {
+        if v == "" {
+            continue
+        }
+        <param_name>_value = append(<param_name>_value, v)
+    }
+    data.<param_name_upper_case_word> = <param_name>_value

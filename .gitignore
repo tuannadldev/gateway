@@ -1,0 +1,30 @@
+# vendor / and logs file
+vendor
+.idea
+*.mod
+!go.mod
+*.sum
+!go.sum
+logs
+logs/*
+
+#config/*.yml
+
+# Binaries &plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test coverage
+*.out
+# Test build
+*.test
+
+# *.pb.go
+
+data
+count.txt
+.vscode
+vendor/*

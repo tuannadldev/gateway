@@ -1,0 +1,53 @@
+// auto generate code, dont edit it
+package grpc
+
+import(
+	"fmt"
+
+	"google.golang.org/grpc"
+    "google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
+
+	"gateway/config"
+	"go.elastic.co/apm/module/apmgrpc/v2"
+    "gateway/pkg/monitor"
+    "gateway/proto/<proto_folder>"
+)
+
+func (client *<service_name_lower_1st>Client) initMethodRegistry() {
+    client.methodRegistry = map[string]func(interface{}, map[string]string) (interface{}, error) {
+<method_entries>
+    }
+}
+
+type <service_name_lower_1st>Client struct {
+    grpcClient <proto_package>.<service_name>Client
+    methodRegistry map[string]func(interface{}, map[string]string) (interface{}, error)
+}
+
+func New<service_name>Client(config *config.Config) *<service_name_lower_1st>Client {
+    // using WithInsecure() because no SSL running
+    cc, err := grpc.Dial(
+        config.Service.<service_name>Url,
+        grpc.WithTransportCredentials(insecure.NewCredentials()),
+        grpc.WithUnaryInterceptor(apmgrpc.NewUnaryClientInterceptor()),
+        grpc.WithStreamInterceptor(apmgrpc.NewStreamClientInterceptor()),
+    )
+
+    if err != nil {
+        fmt.Println("Could not connect:", err)
+    }
+
+    client := <service_name_lower_1st>Client{
+        grpcClient: <proto_package>.New<service_name>Client(cc),
+    }
+    client.initMethodRegistry()
+
+    return &client
+}
+
+func (client *<service_name_lower_1st>Client) GetMethodRegistry() map[string]func(interface{}, map[string]string) (interface{}, error) {
+    return client.methodRegistry
+}
+
+<api_invocations>

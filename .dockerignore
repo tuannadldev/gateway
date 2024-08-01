@@ -1,0 +1,15 @@
+.idea
+.git
+.golangci.yml
+.gitignore
+# folder logs
+logs
+# folder logs
+vendor
+# go.mod
+# go.sum
+clear
+Makefile
+codeGen
+
+count.txt

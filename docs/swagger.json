@@ -175,6 +175,400 @@
                     }
                 }
             }
+        },
+        "/api/orders/": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AccountEmail",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "ShopItems",
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gateway_proto_order.ShopItem"
+                            }
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "DeliveryAddress",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CreateOrderReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CreateOrderRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/:id": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.GetOrderByIDRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/address/:id": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "DeliveryAddress",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.ChangeDeliveryAddressReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.ChangeDeliveryAddressRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/cancel/:id": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "CancelReason",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CancelOrderReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CancelOrderRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/cart/:id": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "ShopItems",
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/gateway_proto_order.ShopItem"
+                            }
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.UpdateShoppingCartReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.UpdateShoppingCartRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/complete/:id": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "DeliveryTimestamp",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CompleteOrderReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.CompleteOrderRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/pay/:id": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "Payment",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.Payment"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.PayOrderReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.PayOrderRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/search": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "SearchText",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "Page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "Size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.SearchRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders/submit/:id": {
+            "put": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrderService"
+                ],
+                "summary": "permission:",
+                "parameters": [
+                    {
+                        "description": "Missing comment! you should fill its for long-term",
+                        "name": "AggregateID",
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Body example",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.SubmitOrderReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gateway_proto_order.SubmitOrderRes"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -287,6 +681,249 @@
                     ]
                 }
             }
+        },
+        "gateway_proto_order.CancelOrderReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                },
+                "CancelReason": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.CancelOrderRes": {
+            "type": "object"
+        },
+        "gateway_proto_order.ChangeDeliveryAddressReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                },
+                "DeliveryAddress": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.ChangeDeliveryAddressRes": {
+            "type": "object"
+        },
+        "gateway_proto_order.CompleteOrderReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                },
+                "DeliveryTimestamp": {
+                    "description": "google.protobuf.Timestamp  DeliveryTimestamp = 2;",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.CompleteOrderRes": {
+            "type": "object"
+        },
+        "gateway_proto_order.CreateOrderReq": {
+            "type": "object",
+            "properties": {
+                "AccountEmail": {
+                    "type": "string"
+                },
+                "DeliveryAddress": {
+                    "type": "string"
+                },
+                "ShopItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gateway_proto_order.ShopItem"
+                    }
+                }
+            }
+        },
+        "gateway_proto_order.CreateOrderRes": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.GetOrderByIDRes": {
+            "type": "object",
+            "properties": {
+                "Order": {
+                    "$ref": "#/definitions/gateway_proto_order.Order"
+                }
+            }
+        },
+        "gateway_proto_order.Order": {
+            "type": "object",
+            "properties": {
+                "AccountEmail": {
+                    "type": "string"
+                },
+                "CancelReason": {
+                    "type": "string"
+                },
+                "Canceled": {
+                    "type": "boolean"
+                },
+                "Completed": {
+                    "type": "boolean"
+                },
+                "DeliveryAddress": {
+                    "type": "string"
+                },
+                "DeliveryTimestamp": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "string"
+                },
+                "Paid": {
+                    "type": "boolean"
+                },
+                "Payment": {
+                    "description": "google.protobuf.Timestamp  DeliveryTimestamp = 11;",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/gateway_proto_order.Payment"
+                        }
+                    ]
+                },
+                "ShopItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gateway_proto_order.ShopItem"
+                    }
+                },
+                "Submitted": {
+                    "type": "boolean"
+                },
+                "TotalPrice": {
+                    "type": "number"
+                }
+            }
+        },
+        "gateway_proto_order.Pagination": {
+            "type": "object",
+            "properties": {
+                "HasMore": {
+                    "type": "boolean"
+                },
+                "Page": {
+                    "type": "integer"
+                },
+                "Size": {
+                    "type": "integer"
+                },
+                "TotalCount": {
+                    "type": "integer"
+                },
+                "TotalPages": {
+                    "type": "integer"
+                }
+            }
+        },
+        "gateway_proto_order.PayOrderReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                },
+                "Payment": {
+                    "$ref": "#/definitions/gateway_proto_order.Payment"
+                }
+            }
+        },
+        "gateway_proto_order.PayOrderRes": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.Payment": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "string"
+                },
+                "Timestamp": {
+                    "description": "google.protobuf.Timestamp  Timestamp = 2;",
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.SearchRes": {
+            "type": "object",
+            "properties": {
+                "Orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gateway_proto_order.Order"
+                    }
+                },
+                "Pagination": {
+                    "$ref": "#/definitions/gateway_proto_order.Pagination"
+                }
+            }
+        },
+        "gateway_proto_order.ShopItem": {
+            "type": "object",
+            "properties": {
+                "Description": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "string"
+                },
+                "Price": {
+                    "type": "number"
+                },
+                "Quantity": {
+                    "type": "integer"
+                },
+                "Title": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.SubmitOrderReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.SubmitOrderRes": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                }
+            }
+        },
+        "gateway_proto_order.UpdateShoppingCartReq": {
+            "type": "object",
+            "properties": {
+                "AggregateID": {
+                    "type": "string"
+                },
+                "ShopItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/gateway_proto_order.ShopItem"
+                    }
+                }
+            }
+        },
+        "gateway_proto_order.UpdateShoppingCartRes": {
+            "type": "object"
         }
     }
 }

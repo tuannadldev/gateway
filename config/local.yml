@@ -32,6 +32,7 @@ redis:
 
 service:
   CustomerServiceUrl: localhost:7070
+  OrderServiceUrl: localhost:7071
 
 JwtConfig:
   SecretKey: "secret"

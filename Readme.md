@@ -11,20 +11,20 @@ go install github.com/swaggo/swag/cmd/swag@latest
 go install github.com/swaggo/gin-swagger@latest
 go install github.com/swaggo/files@latest
 ```
-### Generate swagger doc
-```bash
-swag init -g cmd/main.go
-swag init --parseDependency -g cmd/main.go
-```
-## Tasks
+
 ### Generate proto grpc
 ```bash
-make generateProto
+make protos
 ```
 
 ### Generate API gateway code for handle restful request and call grpc server
 ```bash
 go run autogen/main.go
+```
+### Generate swagger doc
+```bash
+swag init -g cmd/main.go
+swag init --parseDependency -g cmd/main.go
 ```
 
 ### Generate key pairs

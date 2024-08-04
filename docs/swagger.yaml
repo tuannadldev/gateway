@@ -72,6 +72,162 @@ definitions:
         - $ref: '#/definitions/gateway_proto_customer.Customer'
         description: customer object
     type: object
+  gateway_proto_order.CancelOrderReq:
+    properties:
+      AggregateID:
+        type: string
+      CancelReason:
+        type: string
+    type: object
+  gateway_proto_order.CancelOrderRes:
+    type: object
+  gateway_proto_order.ChangeDeliveryAddressReq:
+    properties:
+      AggregateID:
+        type: string
+      DeliveryAddress:
+        type: string
+    type: object
+  gateway_proto_order.ChangeDeliveryAddressRes:
+    type: object
+  gateway_proto_order.CompleteOrderReq:
+    properties:
+      AggregateID:
+        type: string
+      DeliveryTimestamp:
+        description: google.protobuf.Timestamp  DeliveryTimestamp = 2;
+        type: string
+    type: object
+  gateway_proto_order.CompleteOrderRes:
+    type: object
+  gateway_proto_order.CreateOrderReq:
+    properties:
+      AccountEmail:
+        type: string
+      DeliveryAddress:
+        type: string
+      ShopItems:
+        items:
+          $ref: '#/definitions/gateway_proto_order.ShopItem'
+        type: array
+    type: object
+  gateway_proto_order.CreateOrderRes:
+    properties:
+      AggregateID:
+        type: string
+    type: object
+  gateway_proto_order.GetOrderByIDRes:
+    properties:
+      Order:
+        $ref: '#/definitions/gateway_proto_order.Order'
+    type: object
+  gateway_proto_order.Order:
+    properties:
+      AccountEmail:
+        type: string
+      CancelReason:
+        type: string
+      Canceled:
+        type: boolean
+      Completed:
+        type: boolean
+      DeliveryAddress:
+        type: string
+      DeliveryTimestamp:
+        type: string
+      ID:
+        type: string
+      Paid:
+        type: boolean
+      Payment:
+        allOf:
+        - $ref: '#/definitions/gateway_proto_order.Payment'
+        description: google.protobuf.Timestamp  DeliveryTimestamp = 11;
+      ShopItems:
+        items:
+          $ref: '#/definitions/gateway_proto_order.ShopItem'
+        type: array
+      Submitted:
+        type: boolean
+      TotalPrice:
+        type: number
+    type: object
+  gateway_proto_order.Pagination:
+    properties:
+      HasMore:
+        type: boolean
+      Page:
+        type: integer
+      Size:
+        type: integer
+      TotalCount:
+        type: integer
+      TotalPages:
+        type: integer
+    type: object
+  gateway_proto_order.PayOrderReq:
+    properties:
+      AggregateID:
+        type: string
+      Payment:
+        $ref: '#/definitions/gateway_proto_order.Payment'
+    type: object
+  gateway_proto_order.PayOrderRes:
+    properties:
+      AggregateID:
+        type: string
+    type: object
+  gateway_proto_order.Payment:
+    properties:
+      ID:
+        type: string
+      Timestamp:
+        description: google.protobuf.Timestamp  Timestamp = 2;
+        type: string
+    type: object
+  gateway_proto_order.SearchRes:
+    properties:
+      Orders:
+        items:
+          $ref: '#/definitions/gateway_proto_order.Order'
+        type: array
+      Pagination:
+        $ref: '#/definitions/gateway_proto_order.Pagination'
+    type: object
+  gateway_proto_order.ShopItem:
+    properties:
+      Description:
+        type: string
+      ID:
+        type: string
+      Price:
+        type: number
+      Quantity:
+        type: integer
+      Title:
+        type: string
+    type: object
+  gateway_proto_order.SubmitOrderReq:
+    properties:
+      AggregateID:
+        type: string
+    type: object
+  gateway_proto_order.SubmitOrderRes:
+    properties:
+      AggregateID:
+        type: string
+    type: object
+  gateway_proto_order.UpdateShoppingCartReq:
+    properties:
+      AggregateID:
+        type: string
+      ShopItems:
+        items:
+          $ref: '#/definitions/gateway_proto_order.ShopItem'
+        type: array
+    type: object
+  gateway_proto_order.UpdateShoppingCartRes:
+    type: object
 host: localhost:3010
 info:
   contact:
@@ -185,4 +341,253 @@ paths:
       summary: 'permission:'
       tags:
       - CustomerService
+  /api/orders/:
+    post:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AccountEmail
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: ShopItems
+        schema:
+          items:
+            $ref: '#/definitions/gateway_proto_order.ShopItem'
+          type: array
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: DeliveryAddress
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.CreateOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.CreateOrderRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/:id:
+    get:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: query
+        name: AggregateID
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.GetOrderByIDRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/address/:id:
+    put:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: DeliveryAddress
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.ChangeDeliveryAddressReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.ChangeDeliveryAddressRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/cancel/:id:
+    put:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: CancelReason
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.CancelOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.CancelOrderRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/cart/:id:
+    put:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: ShopItems
+        schema:
+          items:
+            $ref: '#/definitions/gateway_proto_order.ShopItem'
+          type: array
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.UpdateShoppingCartReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.UpdateShoppingCartRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/complete/:id:
+    put:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: DeliveryTimestamp
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.CompleteOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.CompleteOrderRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/pay/:id:
+    post:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: Payment
+        schema:
+          $ref: '#/definitions/gateway_proto_order.Payment'
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.PayOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.PayOrderRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/search:
+    get:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: query
+        name: SearchText
+        type: string
+      - description: Missing comment! you should fill its for long-term
+        in: query
+        name: Page
+        type: integer
+      - description: Missing comment! you should fill its for long-term
+        in: query
+        name: Size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.SearchRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
+  /api/orders/submit/:id:
+    put:
+      parameters:
+      - description: Missing comment! you should fill its for long-term
+        in: body
+        name: AggregateID
+        schema:
+          type: string
+      - description: Body example
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/gateway_proto_order.SubmitOrderReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gateway_proto_order.SubmitOrderRes'
+      summary: 'permission:'
+      tags:
+      - OrderService
 swagger: "2.0"

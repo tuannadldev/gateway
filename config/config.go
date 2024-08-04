@@ -13,8 +13,6 @@ type Config struct {
 	Server        ServerConfig
 	Redis         RedisConfig
 	RedisSentinel RedisSentinelConfig
-	Cookie        Cookie
-	Session       Session
 	Logger        Logger
 	Service       ServiceConfig
 	JwtConfig     JwtConfig
@@ -93,24 +91,10 @@ type RedisSentinelConfig struct {
 	MasterName       string
 }
 
-// Cookie config
-type Cookie struct {
-	Name     string
-	MaxAge   int
-	Secure   bool
-	HTTPOnly bool
-}
-
-// Session config
-type Session struct {
-	Prefix string
-	Name   string
-	Expire int
-}
-
 // Service config
 type ServiceConfig struct {
 	CustomerServiceUrl string
+	OrderServiceUrl    string
 }
 
 // JwtKey config

@@ -10,5 +10,6 @@ import(
 func initRemoteServiceClientRegistry(config *config.Config) map[string]RemoteServiceClient {
     return map[string]RemoteServiceClient {
         "CustomerService": remote.NewGrpcServiceClient(grpc.NewCustomerServiceClient(config)),
+        "OrderService": remote.NewGrpcServiceClient(grpc.NewOrderServiceClient(config)),
     }
 }

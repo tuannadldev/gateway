@@ -7,7 +7,7 @@ protos:
 		$(PROTO_FILES)
 
 refreshing:
-	protoc --go-grpc_out=require_unimplemented_servers=false:. --go_out=. proto/**/**/*.proto
+	protoc --go-grpc_out=require_unimplemented_servers=false:. --go_out=. proto/**/*.proto
 	go run autogen/main.go
 	swag init --parseDependency -g cmd/main.go
 

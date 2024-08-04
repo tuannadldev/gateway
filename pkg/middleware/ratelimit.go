@@ -1,61 +1,40 @@
 package middleware
 
 import (
-	"gateway/config"
-	"gateway/pkg/monitor"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis_rate/v10"
 	r9 "github.com/redis/go-redis/v9"
-	"go.elastic.co/apm/v2"
 )
 
-func RateLimitByIP(cfg *config.Config, rdb *r9.Client) gin.HandlerFunc {
+func BucketRateLimiter(rdb *r9.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := c.Request.Context()
-		monitor.SetApmContext(apm.DetachedContext(ctx))
-		span, ctx := apm.StartSpan(monitor.GetApmContext(), "RateLimitByIP", "middleware")
-		defer span.End()
 
+		limiter := redis_rate.NewLimiter(rdb)
 		ip := c.Request.Header.Get("X-Forwarded-For")
-
-		whitelist, err := rdb.SIsMember(ctx, "GATEWAY_WHITELIST", ip).Result()
+		whitelist, err := rdb.SIsMember(ctx, "white:list:ip", ip).Result()
 		if err == nil && whitelist {
 			c.Next()
 		}
-
-		key := "ratelimit_ip:" + ip
-		err = rdb.Incr(ctx, key).Err()
+		res, err := limiter.Allow(ctx, "bucket:gateway:api:ip"+ip, redis_rate.PerMinute(120))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 			return
 		}
-
-		rateStr, err := rdb.Get(ctx, key).Result()
-		if err != nil && rateStr == "" {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		c.Writer.Header().Set("RateLimit-Remaining", strconv.Itoa(res.Remaining))
+		if res.Allowed == 0 {
+			// We are rate limited.
+			seconds := int(res.RetryAfter / time.Second)
+			c.Writer.Header().Set("RateLimit-RetryAfter", strconv.Itoa(seconds))
+			// Stop processing and return the error.
+			c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{"message": "You are rate limited"})
 			return
 		}
-
-		rate, err := strconv.Atoi(rateStr)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
-			return
-		}
-
-		if rate >= cfg.RateLimit.Limit {
-			c.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{"message": "Too many requests"})
-			return
-		}
-
-		err = rdb.Expire(ctx, key, time.Duration(cfg.RateLimit.Expire)*time.Second).Err()
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
-			return
-		}
-
+		// Continue processing as normal.
 		c.Next()
 	}
 }

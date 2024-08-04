@@ -2,8 +2,8 @@
 FROM golang:1.19.2 as builder
 EXPOSE 3000
 ENV GO111MODULE=on
-RUN mkdir -p /go/src/auth_gateway
-WORKDIR /go/src/auth_gateway
+RUN mkdir -p /go/src/gateway
+WORKDIR /go/src/gateway
 
 
 COPY . .
@@ -27,6 +27,6 @@ CMD ["./main"]
 
 # # final stage => run production
 # FROM scratch
-# COPY --from=builder /go/src/fulfillment_inventory .
+# COPY --from=builder /go/src/gateway .
 # EXPOSE 3000
 # ENTRYPOINT ["./main"]

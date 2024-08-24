@@ -9,7 +9,6 @@ import (
 	"gateway/pkg/logger"
 	"gateway/pkg/middleware"
 	"gateway/pkg/redis"
-	"gateway/pkg/utils"
 	"gateway/pkg/wrapper"
 	"github.com/gin-contrib/cors"
 	"io"
@@ -38,14 +37,19 @@ import (
 // @BasePath /
 // @query.collection.format multi
 func main() {
-	configPath := utils.GetConfigPath(os.Getenv("ENVIRONMENT"))
-	cfg, err := config.GetConfig(configPath)
+	cfg, err := config.InitConfig(os.Getenv("ENVIRONMENT"))
+	if err != nil {
+		log.Fatalln("Failed at config", err)
+	}
+	appLogger := logger.InitAppLogger(&cfg.Logger)
+	appLogger.InitLogger()
+	appLogger.WithName(cfg.Server.ServiceName)
+
 	if err != nil {
 		log.Fatalln("Failed at config", err)
 	}
 	// Init AppLog
-	logger.Newlogger(logger.ConfigLogger{})
-	appLogger := logger.GetLogger()
+
 	rdb, err := redis.InitConnection(cfg)
 	if err != nil {
 		appLogger.Panic("Can't connect Redis ", err)
@@ -102,5 +106,6 @@ func main() {
 
 	routingUC := usecase.NewRoutingUseCase(serviceClient)
 	delivery.RegisterRoutes(r, cfg, rdb, routingUC)
+	appLogger.Infof("%s server is listening on port: {%s}", cfg.Server.ServiceName, cfg.Server.Port)
 	r.Run(cfg.Server.Port)
 }

@@ -2,21 +2,22 @@
 package order
 
 import (
-    "gateway/pkg/monitor"
-    "gateway/proto/order"
-    
-    "github.com/gin-gonic/gin"
-    "go.elastic.co/apm/v2"
+	"fmt"
+	"gateway/pkg/monitor"
+	"gateway/proto/order"
+
+	"github.com/gin-gonic/gin"
+	"go.elastic.co/apm/v2"
 )
 
 type createOrderHandler struct {
 }
 
 func NewCreateOrderHandler() *createOrderHandler {
-    return &createOrderHandler{}
+	return &createOrderHandler{}
 }
 
-// @Summary permission: 
+// @Summary permission:
 // @Tags OrderService
 // @Produce json
 // @Param AccountEmail  body  string false "Missing comment! you should fill its for long-term"
@@ -26,11 +27,11 @@ func NewCreateOrderHandler() *createOrderHandler {
 // @Success 200 {object} order.CreateOrderRes
 // @Router /api/orders/ [post]
 func (handler *createOrderHandler) Handle(ctx *gin.Context) (interface{}, error) {
-    monitor.SetApmContext(apm.DetachedContext(ctx.Request.Context()))
-    data := order.CreateOrderReq{}
-    if err := ctx.BindJSON(&data); err != nil {
-        return nil, err
-    }
-
-    return &data, nil
+	monitor.SetApmContext(apm.DetachedContext(ctx.Request.Context()))
+	data := order.CreateOrderReq{}
+	if err := ctx.BindJSON(&data); err != nil {
+		return nil, err
+	}
+	fmt.Println("asdasdasd => ", data)
+	return &data, nil
 }

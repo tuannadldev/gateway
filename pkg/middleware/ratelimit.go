@@ -1,13 +1,12 @@
 package middleware
 
 import (
-	"net/http"
-	"strconv"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis_rate/v10"
 	r9 "github.com/redis/go-redis/v9"
+	"net/http"
+	"strconv"
+	"time"
 )
 
 func BucketRateLimiter(rdb *r9.Client) gin.HandlerFunc {
@@ -20,7 +19,7 @@ func BucketRateLimiter(rdb *r9.Client) gin.HandlerFunc {
 		if err == nil && whitelist {
 			c.Next()
 		}
-		res, err := limiter.Allow(ctx, "bucket:gateway:api:ip"+ip, redis_rate.PerMinute(120))
+		res, err := limiter.Allow(ctx, "bucket:gateway:api:ip"+ip, redis_rate.PerSecond(120))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 			return

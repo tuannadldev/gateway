@@ -15,7 +15,6 @@ func UseErrorHandling(r *gin.Engine) {
 func newErrorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
-
 		if len(c.Errors) > 0 {
 			// status -1 doesn't overwrite existing status code
 			c.JSON(-1, gin.H{"errors": c.Errors})

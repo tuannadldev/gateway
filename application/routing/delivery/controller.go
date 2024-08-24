@@ -101,7 +101,7 @@ func (handler *routingHandler) handle(config *config.Config, rdb *r9.Client) gin
 			Payload:       data,
 			Metadata:      metadata,
 		}
-		fmt.Println(routing_data)
+		fmt.Println("routing_data ==>", routing_data)
 		res, err := handler.routingUC.Forward(routing_data)
 		if err != nil {
 			err_status, _ := status.FromError(err)

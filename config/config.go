@@ -46,13 +46,12 @@ type ServerConfig struct {
 
 // Logger config
 type Logger struct {
-	Development       bool
-	DisableCaller     bool
-	DisableStacktrace bool
-	Encoding          string
-	Level             string
-	LogPath           string
+	DevMode  bool
+	Encoder  string
+	Encoding string
+	LogLevel string
 }
+
 type RateLimit struct {
 	Limit  int
 	Expire int
@@ -160,6 +159,33 @@ func GetConfig(configPath string) (*Config, error) {
 
 	if cfg.RateLimit.Expire == 0 {
 		cfg.RateLimit.Expire = 60
+	}
+
+	return cfg, nil
+}
+
+// Get config
+func InitConfig(env string) (*Config, error) {
+	var configPath string
+	switch env {
+	case "qc":
+		configPath = "./config/qc"
+	case "staging":
+		configPath = "./config/staging"
+	case "prod":
+		configPath = "./config/prod"
+	default:
+		configPath = "./config/local"
+	}
+
+	cfgFile, err := LoadConfig(configPath)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg, err := ParseConfig(cfgFile)
+	if err != nil {
+		return nil, err
 	}
 
 	return cfg, nil
